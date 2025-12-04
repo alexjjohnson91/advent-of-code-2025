@@ -1,11 +1,14 @@
 package day01
 
-import "testing"
+import (
+	"aoc/internal/util"
+	"testing"
+)
 
 func TestPart1_Example(t *testing.T) {
-	input := "\n"
+	input := util.ReadFile("input_test.txt")
 	got := Part1(input)
-	want := 0
+	want := 3
 	if got != want {
 		t.Fatalf("Part1() = %v, want %v", got, want)
 	}
