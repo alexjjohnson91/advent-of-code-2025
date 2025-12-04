@@ -25,27 +25,44 @@ func main() {
 
 	must(os.MkdirAll(dstDir, 0o755))
 
-	entries, err := os.ReadDir(srcDir)
-	must(err)
+	must(filepath.WalkDir(srcDir, func(path string, d os.DirEntry, err error) error {
+		if err != nil {
+			return err
+		}
+		rel, _ := filepath.Rel(srcDir, path)
+		dstPath := filepath.Join(dstDir, rel)
 
-	for _, e := range entries {
-		srcPath := filepath.Join(srcDir, e.Name())
-		dstPath := filepath.Join(dstDir, e.Name())
-
-		if e.IsDir() {
-			continue // ignore nested dirs for simplicity
+		if d.IsDir() {
+			return os.MkdirAll(dstPath, 0o755)
 		}
 
-		b, err := os.ReadFile(srcPath)
-		must(err)
+		b, err := os.ReadFile(path)
+		if err != nil {
+			return err
+		}
 
-		// replace "package template" -> "package dayNN"
-		if strings.HasSuffix(e.Name(), ".go") {
+		if strings.HasSuffix(d.Name(), ".go") {
+			// remove ignore tags
+			b = bytes.ReplaceAll(b, []byte("//go:build ignore\n"), []byte(""))
+			b = bytes.ReplaceAll(b, []byte("// +build ignore\n\n"), []byte(""))
+
+			// package rename
 			b = bytes.ReplaceAll(b, []byte("package template"), []byte("package "+pkg))
+
+			// import rewrite for template package
+			b = bytes.ReplaceAll(b, []byte(`/days/template"`), []byte(`/days/`+day+`"`))
+			b = bytes.ReplaceAll(b, []byte(`/days/_template"`), []byte(`/days/`+day+`"`))
+
+			// input path rewrite
+			b = bytes.ReplaceAll(b, []byte("days/template/input.txt"), []byte("days/"+day+"/input.txt"))
+			b = bytes.ReplaceAll(b, []byte("days/_template/input.txt"), []byte("days/"+day+"/input.txt"))
+
+			// input path rewrite
+			b = bytes.ReplaceAll(b, []byte("template.Part"), []byte(day+".Part"))
 		}
 
-		must(os.WriteFile(dstPath, b, 0o644))
-	}
+		return os.WriteFile(dstPath, b, 0o644)
+	}))
 
 	fmt.Println("created", dstDir)
 }
