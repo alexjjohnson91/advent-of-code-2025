@@ -6,19 +6,13 @@ import (
 	"strings"
 )
 
-type InputRange struct {
-	Start 	int64
-	End 		int64
-}
-
-func Part1(input string) int64 {
+func Part1(input string) int {
 	inputRanges := parseRanges(input)
-	summedInvalidIds := int64(0)
+	summedInvalidIds := 0
 
-	for _, r := range inputRanges {
-		log.Printf("Range %v\n", r)
-		for i := r.Start; i <= r.End; i++ {
-			id := strconv.FormatInt(i, 10)
+	for start, end := range inputRanges {
+		for i := start; i <= end; i++ {
+			id := strconv.Itoa(i)
 			start, end := splitInHalf(id)
 
 			if start == end {
@@ -36,23 +30,23 @@ func Part2(input string) int {
 	return 0
 }
 
-func parseRanges(input string) []InputRange {
+func parseRanges(input string) map[int]int {
 	tokens := strings.Split(input, ",")
 
-	ranges := make([]InputRange, 0, len(tokens))
+	ranges := make(map[int]int)
 
 	for _, t := range tokens {
 		t = strings.TrimSpace(t)
 		parts := strings.Split(t, "-")
 
-		start, startErr := strconv.ParseInt(parts[0], 10, 64)
-		end, endErr := strconv.ParseInt(parts[1], 10, 64)
+		start, startErr := strconv.Atoi(parts[0])
+		end, endErr := strconv.Atoi(parts[1])
 
 		if startErr != nil || endErr != nil {
 			continue
 		}
 
-		ranges = append(ranges, InputRange{Start: start, End: end})
+		ranges[start] = end
 	}
 
 	return ranges
