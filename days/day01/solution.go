@@ -59,6 +59,10 @@ func Part2(input string) int {
 			log.Printf("cycling dial, moveNumber = %v, incrementing counter: %v", moveNumber, numberOfZeroPoints)
 		}
 
+		if dial == 0 && direction == "L" { 
+			numberOfZeroPoints--
+		}
+
 		if direction == "L" {
 			dial -= moveNumber
 		} else {
@@ -66,7 +70,7 @@ func Part2(input string) int {
 		}
 
 		// check bounds
-		if dial < 0 || dial > 99 {
+		if dial <= 0 || dial > 99 {
 			// can only be once at this point
 			numberOfZeroPoints++
 			log.Printf("cyling past 0, incrementing counter %v", numberOfZeroPoints)
