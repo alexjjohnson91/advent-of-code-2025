@@ -13,7 +13,7 @@ type InputRange struct {
 
 func Part1(input string) int64 {
 	inputRanges := parseRanges(input)
-	summedInvalidIds := int64(0)
+	var summedInvalidIds int64 = 0
 
 	for _, r := range inputRanges {
 		log.Printf("Range %v\n", r)
@@ -42,11 +42,10 @@ func parseRanges(input string) []InputRange {
 	ranges := make([]InputRange, 0, len(tokens))
 
 	for _, t := range tokens {
-		t = strings.TrimSpace(t)
 		parts := strings.Split(t, "-")
 
-		start, startErr := strconv.ParseInt(parts[0], 10, 64)
-		end, endErr := strconv.ParseInt(parts[1], 10, 64)
+		start, startErr := strconv.Atoi(parts[0])
+		end, endErr := strconv.Atoi(parts[1])
 
 		if startErr != nil || endErr != nil {
 			continue
