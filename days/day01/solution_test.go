@@ -15,9 +15,9 @@ func TestPart1_Example(t *testing.T) {
 }
 
 func TestPart2_Example(t *testing.T) {
-	input := "\n"
+	input := util.ReadFile("input_test.txt")
 	got := Part2(input)
-	want := 0
+	want := 6
 	if got != want {
 		t.Fatalf("Part2() = %v, want %v", got, want)
 	}
