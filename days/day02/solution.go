@@ -16,7 +16,6 @@ func Part1(input string) int {
 			start, end := splitInHalf(id)
 
 			if start == end {
-				log.Printf("invalid id: %v\n", id)
 				summedInvalidIds += i
 			} 
 		}
@@ -32,12 +31,7 @@ func Part2(input string) int {
 	for start, end := range inputRanges {
 		for i := start; i <= end; i++ {
 			id := strconv.Itoa(i)
-			start, end := splitInHalf(id)
-
-			if start == end {
-				log.Printf("invalid id: %v\n", id)
-				summedInvalidIds += i
-			} 
+			log.Println(id)
 		}
 	}
 
