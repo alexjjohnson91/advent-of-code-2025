@@ -50,13 +50,11 @@ func Part2(input string) int {
 		if err != nil {
 			log.Fatalf("the move number is not a number")
 		}
-		log.Printf("direction %v, move number %v\n", direction, moveNumber)
 
 		// cycling the dial
 		for moveNumber > 99 {
 			moveNumber -= 100
 			numberOfZeroPoints++
-			log.Printf("cycling dial, moveNumber = %v, incrementing counter: %v", moveNumber, numberOfZeroPoints)
 		}
 
 		if dial == 0 && direction == "L" { 
@@ -73,13 +71,10 @@ func Part2(input string) int {
 		if dial <= 0 || dial > 99 {
 			// can only be once at this point
 			numberOfZeroPoints++
-			log.Printf("cyling past 0, incrementing counter %v", numberOfZeroPoints)
 		}
 
 		// wrapped mod
 		dial = ((dial % 100) + 100) % 100
-
-		log.Printf("dial: %v\n", dial)
 	}
 
 	return numberOfZeroPoints
