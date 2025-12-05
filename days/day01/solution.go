@@ -9,27 +9,35 @@ import (
 func Part1(input string) int {
 	moves := readArray(input);
 	dial := 50
+	numberOfZeroPoints := 0
 
 	for _, move := range moves {
-		move_runes := []rune(move)
-		direction := string(move_runes[0])
-		number_string := string(move_runes[1:])
-		move_number, err := strconv.Atoi(number_string)
+		moveRunes := []rune(move)
+		direction := string(moveRunes[0])
+		numberString := string(moveRunes[1:])
+		moveNumber, err := strconv.Atoi(numberString)
 		if err != nil {
 			log.Fatalf("the move number is not a number")
 		}
-		log.Printf("direction %v, move number %v\n", direction, move_number)
+		log.Printf("direction %v, move number %v\n", direction, moveNumber)
 
 		if direction == "L" {
-			//TODO
+			dial -= moveNumber
 		} else {
-			//TODO
+			dial += moveNumber
+		}
+
+		// wrapped mod
+		dial = ((dial % 100) + 100) % 100
+
+		if dial == 0 {
+			numberOfZeroPoints++
 		}
 
 		log.Printf("dial: %v\n", dial)
 	}
 
-	return 0
+	return numberOfZeroPoints
 }
 
 func Part2(input string) int {

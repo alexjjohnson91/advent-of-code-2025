@@ -8,7 +8,6 @@ import (
 )
 
 func main() {
-	// NOTE: when copied, imports get rewritten by script
 	input := util.ReadFile("days/day01/input.txt")
 
 	fmt.Println("Part 1:", day01.Part1(input))
