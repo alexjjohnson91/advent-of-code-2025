@@ -26,8 +26,22 @@ func Part1(input string) int {
 }
 
 func Part2(input string) int {
-	// TODO
-	return 0
+	inputRanges := parseRanges(input)
+	summedInvalidIds := 0
+
+	for start, end := range inputRanges {
+		for i := start; i <= end; i++ {
+			id := strconv.Itoa(i)
+			start, end := splitInHalf(id)
+
+			if start == end {
+				log.Printf("invalid id: %v\n", id)
+				summedInvalidIds += i
+			} 
+		}
+	}
+
+	return summedInvalidIds
 }
 
 func parseRanges(input string) map[int]int {
