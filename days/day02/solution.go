@@ -17,7 +17,7 @@ func Part1(input string) int {
 
 			if start == end {
 				summedInvalidIds += i
-			} 
+			}
 		}
 	}
 
@@ -31,7 +31,12 @@ func Part2(input string) int {
 	for start, end := range inputRanges {
 		for i := start; i <= end; i++ {
 			id := strconv.Itoa(i)
-			log.Println(id)
+			for j := 1; j < len(id); j++ {
+				if len(id)%j == 0 && checkInvalidRoot(id, j) {
+					summedInvalidIds += i
+					break
+				}
+			}
 		}
 	}
 
@@ -64,4 +69,14 @@ func splitInHalf(s string) (string, string) {
 	r := []rune(s)
 	mid := len(r) / 2
 	return string(r[:mid]), string(r[mid:])
+}
+
+func checkInvalidRoot(id string, rootLength int) bool {
+	if strings.Repeat(id[:rootLength], len(id)/rootLength) == id {
+		log.Printf("invalid id %v\n", id)
+		return true
+	} else {
+		log.Printf("valid id %v\n", id)
+		return false
+	}
 }
