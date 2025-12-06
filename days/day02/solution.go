@@ -1,7 +1,6 @@
 package day02
 
 import (
-	"log"
 	"strconv"
 	"strings"
 )
@@ -72,11 +71,5 @@ func splitInHalf(s string) (string, string) {
 }
 
 func checkInvalidRoot(id string, rootLength int) bool {
-	if strings.Repeat(id[:rootLength], len(id)/rootLength) == id {
-		log.Printf("invalid id %v\n", id)
-		return true
-	} else {
-		log.Printf("valid id %v\n", id)
-		return false
-	}
+	return strings.Repeat(id[:rootLength], len(id)/rootLength) == id
 }
