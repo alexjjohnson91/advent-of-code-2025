@@ -3,6 +3,7 @@ package util
 import (
 	"fmt"
 	"os"
+	"strings"
 )
 
 // ReadFile reads the entire file at the given path and returns its contents
@@ -22,4 +23,10 @@ func ReadFile(path string) string {
 		panic(fmt.Errorf("read input %s: %w", path, err))
 	}
 	return string(b)
+}
+
+// ReadArray reads a string into an array splitting on new lines
+//
+func ReadArray(input string) []string {
+	return strings.Split(strings.TrimSpace(input), "\n")
 }

@@ -1,13 +1,13 @@
 package day03
 
 import (
+	"aoc/internal/util"
 	"log"
 	"strconv"
-	"strings"
 )
 
 func Part1(input string) int {
-	banks := readArray(input)
+	banks := util.ReadArray(input)
 	combinedJoltage := 0
 
 	for _, bank := range banks {
@@ -23,7 +23,7 @@ func Part1(input string) int {
 }
 
 func Part2(input string) int {
-	banks := readArray(input)
+	banks := util.ReadArray(input)
 	combinedJoltage := 0
 
 	for _, bank := range banks {
@@ -52,10 +52,6 @@ func findMaxDigits(joltage []rune, digits []int, digitsToFind int, digitsRemaini
 	}
 
 	return findMaxDigits(append(joltage, rune(maxDigit)), digits[maxDigitIndex+1:], digitsToFind, digitsRemaining - 1)
-}
-
-func readArray(input string) []string {
-	return strings.Split(strings.TrimSpace(input), "\n")
 }
 
 func toIntArray(input string) []int {
