@@ -20,8 +20,31 @@ func Part1(input string) int {
 }
 
 func Part2(input string) int {
-	// TODO
-	return 0
+	chart := toChart(util.ReadArray(input))
+	rollsAccessed := 0
+	lastCycleAccessedRolls := -1
+
+	for lastCycleAccessedRolls != 0 {
+		chart, lastCycleAccessedRolls = processChart(chart)
+		rollsAccessed += lastCycleAccessedRolls
+	}
+
+	return rollsAccessed
+}
+
+func processChart(chart [][]rune) ([][]rune, int) {
+	rolls := 0
+
+	for i := range chart {
+		for j := range chart[i] {
+			if string(chart[i][j]) == "@" && checkSpot(chart, i, j) {
+				chart[i][j] = 'x'
+				rolls++
+			}
+		}
+	}
+
+	return chart, rolls
 }
 
 func checkSpot(chart [][]rune, i, j int) bool {
@@ -65,4 +88,3 @@ func isOutOfBounds(set [2]int, x int, y int) bool {
 
 	return false
 }
-
