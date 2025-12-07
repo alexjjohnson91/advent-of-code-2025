@@ -11,7 +11,7 @@ func Part1(input string) int {
 	combinedJoltage := 0
 
 	for _, bank := range banks {
-		maxJoltage, err := strconv.Atoi(findMaxDigits([]rune{}, toIntArray(bank), 2, 2)) 
+		maxJoltage, err := strconv.Atoi(findMaxDigits([]rune{}, toIntArray(bank), 2)) 
 		if err != nil {
 			log.Fatalln("error finding max joltage")
 		}
@@ -27,7 +27,7 @@ func Part2(input string) int {
 	combinedJoltage := 0
 
 	for _, bank := range banks {
-		maxJoltage, err := strconv.Atoi(findMaxDigits([]rune{}, toIntArray(bank), 12, 12)) 
+		maxJoltage, err := strconv.Atoi(findMaxDigits([]rune{}, toIntArray(bank), 12)) 
 		if err != nil {
 			log.Fatalln("error finding max joltage")
 		}
@@ -38,8 +38,8 @@ func Part2(input string) int {
 	return combinedJoltage
 }
 
-func findMaxDigits(joltage []rune, digits []int, digitsToFind int, digitsRemaining int) string {
-	if len(joltage) == digitsToFind {
+func findMaxDigits(joltage []rune, digits []int, digitsRemaining int) string {
+	if digitsRemaining == 0 {
 		return string(joltage)
 	}
 
@@ -51,7 +51,7 @@ func findMaxDigits(joltage []rune, digits []int, digitsToFind int, digitsRemaini
 		}
 	}
 
-	return findMaxDigits(append(joltage, rune(maxDigit)), digits[maxDigitIndex+1:], digitsToFind, digitsRemaining - 1)
+	return findMaxDigits(append(joltage, rune(maxDigit)), digits[maxDigitIndex+1:], digitsRemaining - 1)
 }
 
 func toIntArray(input string) []int {
