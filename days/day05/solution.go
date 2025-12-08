@@ -2,7 +2,7 @@ package day05
 
 import (
 	"bufio"
-	"log"
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -28,19 +28,15 @@ func Part1(input string) int {
 
 func Part2(input string) int {
 	ranges, _ := parseInput(input)
-	totalFresh := make(map[int]int)
+	ranges = mergeRanges(ranges)
 
-	ranges := mergeRanges(ranges)
+	totalFresh := 0
 
 	for _, r := range ranges {
-		for i := r[0]; i <= r[1]; i++ {
-			if totalFresh[i] != 1 {
-				totalFresh[i] = 1
-			}
-		}
+		totalFresh += (r[1] - r[0]) + 1
 	}
 
-	return len(totalFresh)
+	return totalFresh
 }
 
 func parseInput(input string) ([][2]int, []int) {
@@ -71,7 +67,29 @@ func parseInput(input string) ([][2]int, []int) {
 	return ranges, numbers
 }
 
-func mergeRanges(ranges [][2]int) [][2]int {
+func mergeRanges(spans [][2]int) [][2]int {
+	sort.Slice(spans, func(i, j int) bool {
+		if spans[i][0] == spans[j][0] {
+			return spans[i][1] < spans[j][1]
+		}
+		return spans[i][0] < spans[j][0]
+	})
 
-	return ranges
+	merged := make([][2]int, 0, len(spans))
+	currSpan := spans[0]
+
+	for _, span := range spans[1:] {
+		if span[0] <= currSpan[1] {
+			if span[1] > currSpan[1] {
+				currSpan[1] = span[1]
+			}
+		} else {
+			merged = append(merged, currSpan)
+			currSpan = span
+		}
+	}
+
+	merged = append(merged, currSpan)
+
+	return merged
 }
