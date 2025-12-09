@@ -2,15 +2,15 @@ package day07
 
 import (
 	"aoc/internal/util"
-	"log"
 )
 
 func Part1(input string) int {
 	manifold := util.ReadArray(input)
 
-	printManifold(manifold)
+	manifold = startBeam(manifold)
+	splits := moveBeam(manifold)
 
-	return 0
+	return splits
 }
 
 func Part2(input string) int {
@@ -18,15 +18,44 @@ func Part2(input string) int {
 	return 0
 }
 
-func printManifold(manifold []string) {
-	for _, s := range manifold {
-		log.Println(s)
+func moveBeam(manifold []string) int {
+	splits := 0
+	beamLocation := 1
+	for i := range manifold {
+		s := manifold[i]
+		for j := range s {
+			if beamLocation == len(manifold) {
+				return splits
+			}
+			if s[j] == '|' {
+				bytes := []byte(manifold[i+1])
+				// check for split
+				if bytes[j] == '^' {
+					bytes[j-1] = '|'
+					bytes[j+1] = '|'
+					splits++
+				} else {
+					bytes[j] = '|'
+				}
+				manifold[i+1] = string(bytes)
+			}
+		}
+		beamLocation++
 	}
+
+	return splits
 }
 
-func moveBeam(manifold []string) {
-	printManifold(manifold)
-
-	for _, s := range manifold {
+func startBeam(manifold []string) []string {
+	s := manifold[0]
+	for j := range s {
+		if s[j] == 'S' {
+			bytes := []byte(manifold[1])
+			bytes[j] = '|'
+			manifold[1] = string(bytes)
+			return manifold
+		}
 	}
+
+	return manifold
 }

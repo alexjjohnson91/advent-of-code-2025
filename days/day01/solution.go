@@ -4,7 +4,6 @@ import (
 	"aoc/internal/util"
 	"log"
 	"strconv"
-	"strings"
 )
 
 func Part1(input string) int {
@@ -39,7 +38,7 @@ func Part1(input string) int {
 }
 
 func Part2(input string) int {
-	moves := util..ReadArray(input);
+	moves := util.ReadArray(input);
 	dial := 50
 	numberOfZeroPoints := 0
 
