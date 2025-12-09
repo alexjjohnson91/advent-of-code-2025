@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"log"
 
 	"aoc/days/template"
 	"aoc/internal/util"
@@ -9,6 +11,7 @@ import (
 
 func main() {
 	// NOTE: when copied, imports get rewritten by script
+	log.SetOutput(io.Discard)
 	input := util.ReadFile("days/template/input.txt")
 
 	fmt.Println("Part 1:", template.Part1(input))

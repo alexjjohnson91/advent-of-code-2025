@@ -1,6 +1,8 @@
 package day07
 
 import (
+	"log"
+
 	"aoc/internal/util"
 )
 
@@ -18,6 +20,12 @@ func Part2(input string) int {
 	return 0
 }
 
+func printManifold(manifold []string) {
+	for _, s := range manifold {
+		log.Println(s)
+	}
+}
+
 func moveBeam(manifold []string) int {
 	splits := 0
 	beamLocation := 1
@@ -25,9 +33,11 @@ func moveBeam(manifold []string) int {
 		s := manifold[i]
 		for j := range s {
 			if beamLocation == len(manifold) {
+				log.Printf("beam Location ended\n")
 				return splits
 			}
 			if s[j] == '|' {
+				log.Println("beam needs to move")
 				bytes := []byte(manifold[i+1])
 				// check for split
 				if bytes[j] == '^' {
@@ -38,9 +48,11 @@ func moveBeam(manifold []string) int {
 					bytes[j] = '|'
 				}
 				manifold[i+1] = string(bytes)
+				log.Printf("beam Location: %v\n", beamLocation)
 			}
 		}
 		beamLocation++
+		printManifold(manifold)
 	}
 
 	return splits
@@ -48,6 +60,7 @@ func moveBeam(manifold []string) int {
 
 func startBeam(manifold []string) []string {
 	s := manifold[0]
+	log.Printf("checking s: %v\n", s)
 	for j := range s {
 		if s[j] == 'S' {
 			bytes := []byte(manifold[1])
