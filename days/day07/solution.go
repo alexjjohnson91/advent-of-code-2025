@@ -6,9 +6,10 @@ import (
 	"aoc/internal/util"
 )
 
+var memo map[[2]int]int
+
 func Part1(input string) int {
 	manifold := util.ReadArray(input)
-
 	manifold = startBeam(manifold)
 	splits := moveBeam(manifold)
 
@@ -16,14 +17,44 @@ func Part1(input string) int {
 }
 
 func Part2(input string) int {
-	// TODO
-	return 0
+	manifold := util.ReadArray(input)
+	manifold = startBeam(manifold)
+
+	memo = make(map[[2]int]int)
+	paths := countPaths(manifold, 1, (len(manifold[0])-1) / 2)
+
+	return paths
 }
 
 func printManifold(manifold []string) {
 	for _, s := range manifold {
 		log.Println(s)
 	}
+}
+
+func countPaths(manifold []string, pathDepth int, pathIndex int) int {
+	key := [2]int{pathDepth, pathIndex}
+	if v, ok := memo[key]; ok {
+		return v
+	}
+
+	// base case
+	if (pathDepth == len(manifold) - 1) {
+		return 1
+	} 
+
+	// recursive case
+	result := 0
+	if (manifold[pathDepth+1][pathIndex] == '^') {
+		result = countPaths(manifold, pathDepth+1, pathIndex-1) + countPaths(manifold, pathDepth+1, pathIndex+1)
+	} else {
+		result = countPaths(manifold, pathDepth+1, pathIndex)
+	}
+
+	// store in memo
+	memo[key] = result
+
+	return result
 }
 
 func moveBeam(manifold []string) int {
@@ -60,7 +91,6 @@ func moveBeam(manifold []string) int {
 
 func startBeam(manifold []string) []string {
 	s := manifold[0]
-	log.Printf("checking s: %v\n", s)
 	for j := range s {
 		if s[j] == 'S' {
 			bytes := []byte(manifold[1])
