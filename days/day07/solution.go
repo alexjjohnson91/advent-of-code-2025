@@ -18,7 +18,6 @@ func Part1(input string) int {
 
 func Part2(input string) int {
 	manifold := util.ReadArray(input)
-	manifold = startBeam(manifold)
 
 	memo = make(map[[2]int]int)
 	paths := countPaths(manifold, 1, (len(manifold[0])-1) / 2)
@@ -44,17 +43,14 @@ func countPaths(manifold []string, pathDepth int, pathIndex int) int {
 	} 
 
 	// recursive case
-	result := 0
 	if (manifold[pathDepth+1][pathIndex] == '^') {
+		result := 0
 		result = countPaths(manifold, pathDepth+1, pathIndex-1) + countPaths(manifold, pathDepth+1, pathIndex+1)
+		memo[key] = result
+		return result
 	} else {
-		result = countPaths(manifold, pathDepth+1, pathIndex)
+		return countPaths(manifold, pathDepth+1, pathIndex)
 	}
-
-	// store in memo
-	memo[key] = result
-
-	return result
 }
 
 func moveBeam(manifold []string) int {
