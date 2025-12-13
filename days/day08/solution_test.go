@@ -6,7 +6,7 @@ import (
 )
 
 func TestPart1_Example(t *testing.T) {
-	input := util.ReadFile("input_test.txt")
+	input := util.ReadFile("input.txt")
 	got := Part1(input)
 	want := 40
 	if got != want {
