@@ -1,6 +1,7 @@
 package day08
 
 import (
+	"log"
 	"sort"
 	"strconv"
 	"strings"
@@ -25,7 +26,7 @@ var (
 	rank   []int
 )
 
-func Part1(input string) int {
+func Part1(input string, k int) int {
 	points := parsePoints(input)
 	edges := parseEdges(points)
 
@@ -48,7 +49,7 @@ func Part1(input string) int {
 		}
 
 		conn++
-		if conn == min(1000, len(edges)) {
+		if conn == k {
 			break
 		}
 	}
@@ -78,8 +79,39 @@ func Part1(input string) int {
 }
 
 func Part2(input string) int {
-	// TODO
-	return 0
+	points := parsePoints(input)
+	edges := parseEdges(points)
+
+	sort.Slice(edges, func(i, j int) bool {
+		return edges[i].distance < edges[j].distance
+	})
+
+	parent = make([]int, len(points))
+	rank = make([]int, len(points))
+
+	for i := range points {
+		parent[i] = i
+		rank[i] = 0
+	}
+
+	total := 0
+	compCount := len(points)
+	for compCount > 1 {
+		for _, edge := range edges {
+			if find(edge.i) != find(edge.j) {
+				union(edge.i, edge.j)
+				compCount--
+				if compCount == 1 {
+					log.Printf("point 1: %v\n", points[edge.i])
+					log.Printf("point 2: %v\n", points[edge.j])
+					total = int(points[edge.i].x * points[edge.j].x)
+					break
+				}
+			}
+		}
+	}
+
+	return total
 }
 
 func parsePoints(input string) []Point {

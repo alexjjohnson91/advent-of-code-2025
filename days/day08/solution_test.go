@@ -6,8 +6,8 @@ import (
 )
 
 func TestPart1_Example(t *testing.T) {
-	input := util.ReadFile("input.txt")
-	got := Part1(input)
+	input := util.ReadFile("input_test.txt")
+	got := Part1(input, 10)
 	want := 40
 	if got != want {
 		t.Fatalf("Part1() = %v, want %v", got, want)
@@ -15,9 +15,9 @@ func TestPart1_Example(t *testing.T) {
 }
 
 func TestPart2_Example(t *testing.T) {
-	input := "\n"
+	input := util.ReadFile("input_test.txt")
 	got := Part2(input)
-	want := 0
+	want := 25272
 	if got != want {
 		t.Fatalf("Part2() = %v, want %v", got, want)
 	}

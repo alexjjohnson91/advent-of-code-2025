@@ -14,6 +14,6 @@ func main() {
 	log.SetOutput(io.Discard)
 	input := util.ReadFile("days/day08/input.txt")
 
-	fmt.Println("Part 1:", day08.Part1(input))
+	fmt.Println("Part 1:", day08.Part1(input, 1000))
 	fmt.Println("Part 2:", day08.Part2(input))
 }
