@@ -1,9 +1,12 @@
 package day10
 
-import "testing"
+import (
+	"aoc/internal/util"
+	"testing"
+)
 
 func TestPart1_Example(t *testing.T) {
-	input := "\n"
+	input := util.ReadFile("input_test.txt")
 	got := Part1(input)
 	want := 7
 	if got != want {
